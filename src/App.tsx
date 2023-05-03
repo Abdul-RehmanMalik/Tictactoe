@@ -1,5 +1,6 @@
  import { useState } from 'react'
 // export default App
+
 function Square({ value, onSquareClick} : {value : string, onSquareClick : React.MouseEventHandler<HTMLButtonElement>}) {
   return (
     <button className="square" onClick={onSquareClick}>
@@ -8,18 +9,20 @@ function Square({ value, onSquareClick} : {value : string, onSquareClick : React
   );
 }
 
-  function Board({ xIsNext, squares, onPlay}:{xIsNext : boolean, squares : any[], onPlay: Function}) {
-    function handleClick(i : number) {
-      if (calculateWinner(squares) || squares[i]) {
-        return;
-      }
-      const nextSquares = squares.slice();
-      if (xIsNext) {
-        nextSquares[i] = "X";
-      } else {
-        nextSquares[i] = "O";
-      }
-      onPlay(nextSquares);
+function Board({ xIsNext, squares, onPlay } : {xIsNext: Boolean, squares : any[], onPlay : Function}) {
+  function handleClick(i : number) {
+    if (calculateWinner(squares) || squares[i]) {
+      return;
+    }
+    const nextSquares = squares.slice();
+    if (xIsNext) {
+      nextSquares[i] = 'X';
+    } else {
+      nextSquares[i] = 'O';
+    }
+    onPlay(nextSquares);
+  }
+
   const winner = calculateWinner(squares);
   let status;
   if (winner) {
@@ -27,11 +30,10 @@ function Square({ value, onSquareClick} : {value : string, onSquareClick : React
   } else {
     status = 'Next player: ' + (xIsNext ? 'X' : 'O');
   }
-    }
+
   return (
     <>
-    
-    <div className="status">{status}</div>
+      <div className="status">{status}</div>
       <div className="board-row">
         <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
         <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
@@ -49,7 +51,7 @@ function Square({ value, onSquareClick} : {value : string, onSquareClick : React
       </div>
     </>
   );
-};
+}
 export default function Game() {
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
